@@ -37,6 +37,7 @@ import '@eladmin/assets/icons' // icon
 import './router/index' // permission control
 
 import accounting from 'accounting'
+import TrendChart from "vue-trend-chart";
 
 Vue.prototype.$accounting = accounting
 
@@ -60,7 +61,7 @@ Vue.use(VueQuillEditor, /* { default global options } */)
 Vue.use(Element, {
   size: Cookies.get('size') || 'mini' // set element-ui default size
 })
-
+Vue.use(TrendChart);
 Vue.config.productionTip = false
 
 new Vue({
