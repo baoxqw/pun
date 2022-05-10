@@ -32,6 +32,7 @@
               v-for="(item, index) in dynamicColumns"
               :key="index"
               :prop="item.prop"
+              width="200"
           >
             <template slot="header">
               {{ item.label }}
@@ -139,28 +140,31 @@ export default {
       tableData: [
         {
           date: "2016-05-02",
-          name: "王小虎",
+          name: "王小虎1",
           address: "上海市普陀区金沙江路 1518 弄",
           isEditor: false,
           custom: ""
         },
         {
           date: "2016-05-04",
-          name: "王小虎",
+          name: "王小红",
           address: "上海市普陀区金沙江路 1517 弄",
-          isEditor: false
+          isEditor: false,
+          custom: ""
         },
         {
           date: "2016-05-01",
-          name: "王小虎",
+          name: "王小翠",
           address: "上海市普陀区金沙江路 1519 弄",
-          isEditor: false
+          isEditor: false,
+          custom: ""
         },
         {
           date: "2016-05-03",
           name: "王小虎",
           address: "上海市普陀区金沙江路 1516 弄",
-          isEditor: false
+          isEditor: false,
+          custom: ""
         }
       ],
       rightList: [],
