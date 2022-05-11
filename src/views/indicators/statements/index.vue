@@ -71,19 +71,19 @@ export default {
       data: [
         {
           id: 1,
-          label: "一级 1",
+          label: "上海市",
           children: [
             {
               id: 4,
-              label: "二级 1-1",
+              label: "普陀区",
               children: [
                 {
                   id: 9,
-                  label: "三级 1-1-1"
+                  label: "宁夏路"
                 },
                 {
                   id: 10,
-                  label: "三级 1-1-2"
+                  label: "曹杨路"
                 }
               ]
             }
@@ -91,41 +91,37 @@ export default {
         },
         {
           id: 2,
-          label: "一级 2",
+          label: "北京市",
           children: [
             {
               id: 5,
-              label: "二级 2-1"
+              label: "朝阳区"
             },
             {
               id: 6,
-              label: "二级 2-2"
+              label: "东城区"
             }
           ]
         },
         {
           id: 3,
-          label: "一级 3",
+          label: "西安市",
           children: [
             {
               id: 7,
-              label: "二级 3-1"
+              label: "未央区"
             },
             {
               id: 8,
-              label: "二级 3-2",
+              label: "碑林区",
               children: [
                 {
                   id: 11,
-                  label: "三级 3-2-1"
+                  label: "和平路"
                 },
                 {
                   id: 12,
-                  label: "三级 3-2-2"
-                },
-                {
-                  id: 13,
-                  label: "三级 3-2-3"
+                  label: "南大街"
                 }
               ]
             }
@@ -141,28 +137,28 @@ export default {
         {
           date: "2016-05-02",
           name: "王小虎1",
-          address: "上海市普陀区金沙江路 1518 弄",
+          address: "普陀区",
           isEditor: false,
           custom: ""
         },
         {
           date: "2016-05-04",
           name: "王小红",
-          address: "上海市普陀区金沙江路 1517 弄",
+          address: "东城区",
           isEditor: false,
           custom: ""
         },
         {
           date: "2016-05-01",
           name: "王小翠",
-          address: "上海市普陀区金沙江路 1519 弄",
+          address: "未央区",
           isEditor: false,
           custom: ""
         },
         {
           date: "2016-05-03",
           name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
+          address: "曹杨路",
           isEditor: false,
           custom: ""
         }
