@@ -16,126 +16,61 @@
         ></el-tree>
       </el-card>
     </aside>
-      <div class="st-table" @drop="drop"  @dragover.prevent>
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>支付工具结构情况季报表</span>
-          </div>
-          <div style="margin-bottom:10px">
-            <el-button type="primary"  @click="addColumn">添加列</el-button>
-            <el-button type="primary"  @click="submit">提交</el-button>
-          </div>
-          <el-table :data="tableData" border style="width: 100%">
-            <el-table-column prop="name" label="项目" width="80">
-              <template slot-scope="scope">
-                <span>{{scope.row.name}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="address" label="金额" width="230">
-              <template slot-scope="scope">
-                <el-input type="text" v-model="addressDrag.label" v-show="scope.row.isEditor" />
-                <span v-show="!scope.row.isEditor">{{scope.row.address}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="date" label="笔数" >
-              <template slot-scope="scope">
-                <span>{{scope.row.date}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-                v-for="(item, index) in dynamicColumns"
-                :key="index"
-                :prop="item.prop"
-            >
-              <template slot="header">
-                {{ item.label }}
-                <i
-                    class="el-icon-remove"
-                    style="color:red;cursor:pointer;"
-                    @click="deleteColunm(index)"
-                ></i>
-              </template>
-              <template slot-scope="scope">
-                <el-input
-                    v-if="isEdit"
-                    v-model="scope.row.custom[item.prop]"
-                    placeholder="请输入内容"
-                ></el-input>
-                <span v-else>{{ scope.row.custom[item.prop] }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="操作" width="350">
-              <template slot-scope="scope">
-                <el-button type="warning"  @click="edit(scope.row, scope)">拖拽</el-button>
-                <el-button type="primary"  @click="save(scope.row)">保存</el-button>
-                <el-button type="primary"  @click="cancel(scope.row)">取消</el-button>
-                <el-button type="warning"  @click="custom(scope.row)">指标单元格</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-card>
-      </div>
-      <el-dialog
-          title="指标单元格"
-          :visible.sync="dialogVisible"
-          width="60%"
-          :before-close="handleClose">
-        <el-card class="box-card">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item label="维度名称">
-              <el-input v-model="formInline.user" placeholder="维度名称"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit">查询</el-button>
-            </el-form-item>
-          </el-form>
-          <el-table
-              :data="tableDataCus"
-              style="width: 100%">
-            <el-table-column
-                prop="date"
-                label="指标维度"
-                width="180">
-            </el-table-column>
-            <el-table-column
-                prop="name"
-                label="维度编码"
-                width="180">
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="设置过滤值">
-            </el-table-column>
-            <el-table-column label="操作" >
-              <template slot-scope="scope">
-                <el-button type="primary" @click="setFilter(scope.row, scope)">设置过滤</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-card>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
-      </el-dialog>
-      <el-dialog
-        title="维度树"
-        :visible.sync="filterVisible"
-        width="60%"
-        >
+    <div class="st-table">
       <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>支付工具结构情况季报表</span>
+        </div>
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="维度过滤类型">
-            <el-input v-model="formInline.user" placeholder="包含" disabled></el-input>
+          <el-form-item label="报表日期">
+            <el-date-picker
+                v-model="formInline.data"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="success" @click="onSubmit">查询</el-button>
+            <el-button type="success" @click="submitCancel">重置</el-button>
           </el-form-item>
         </el-form>
-        <el-checkbox v-model="checked">总行</el-checkbox>
+        <el-table :data="tableData" border style="width: 100%">
+
+          <el-table-column prop="name" label="项目" width="180">
+            <template slot-scope="scope">
+              <el-input type="text" v-model="scope.row.name" v-show="scope.row.isEditor" />
+              <span v-show="!scope.row.isEditor">{{scope.row.name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="date" label="金额" width="180">
+            <template slot-scope="scope">
+              <el-input type="text" v-model="scope.row.date" v-show="scope.row.isEditor" />
+              <span v-show="!scope.row.isEditor">{{scope.row.date}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="笔数">
+            <template slot-scope="scope">
+              <el-input type="text" v-model="scope.row.address" v-show="scope.row.isEditor" />
+              <span v-show="!scope.row.isEditor">{{scope.row.address}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="startDate" label="报表日期">
+            <template slot-scope="scope">
+              <el-input type="text" v-model="scope.row.startDate" v-show="scope.row.isEditor" />
+              <span v-show="!scope.row.isEditor">{{scope.row.startDate}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="180">
+            <template slot-scope="scope">
+              <el-button type="warning" @click="edit(scope.row, scope)">编辑</el-button>
+              <el-button type="danger" @click="save(scope.row)">保存</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
       </el-card>
-      <span slot="footer" class="dialog-footer">
-          <el-button @click="filterVisible = false">取 消</el-button>
-          <el-button type="primary" @click="filterSubmit">确 定</el-button>
-        </span>
-    </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -145,8 +80,7 @@ export default {
   data() {
     return {
       formInline: {
-        user: '',
-        region: ''
+        data: '',
       },
       /*data: [
         {
@@ -256,12 +190,14 @@ export default {
           name: "存现",
           address: "[本外合-季累计交易金额(月末汇率折币)]",
           isEditor: false,
+          startDate:'2022-05-02',
           custom: ""
         },
         {
           date: "[指标]{信用卡交易笔数}",
           name: "取现",
           address: "[小金中心]",
+          startDate:'2022-05-08',
           isEditor: false,
           custom: ""
         },
@@ -269,6 +205,7 @@ export default {
           date: "[指标]{信用卡交易笔数}",
           name: "ATM取现",
           address: "[上线报表]",
+          startDate:'2022-05-11',
           isEditor: false,
           custom: ""
         },
@@ -276,6 +213,7 @@ export default {
           date: "[指标]{信用卡交易笔数}",
           name: "消费",
           address: "[信用卡]",
+          startDate:'2022-05-09',
           isEditor: false,
           custom: ""
         }
@@ -305,11 +243,61 @@ export default {
     this.initTable()
   },
   methods: {
+    submitCancel() {
+      this.formInline =  {
+        data: '',
+      }
+      this.tableData = [
+        {
+          date: "[指标]{信用卡交易笔数}",
+          name: "存现",
+          address: "[本外合-季累计交易金额(月末汇率折币)]",
+          isEditor: false,
+          startDate:'2022-05-02',
+          custom: ""
+        },
+        {
+          date: "[指标]{信用卡交易笔数}",
+          name: "取现",
+          address: "[小金中心]",
+          startDate:'2022-05-08',
+          isEditor: false,
+          custom: ""
+        },
+        {
+          date: "[指标]{信用卡交易笔数}",
+          name: "ATM取现",
+          address: "[上线报表]",
+          startDate:'2022-05-11',
+          isEditor: false,
+          custom: ""
+        },
+        {
+          date: "[指标]{信用卡交易笔数}",
+          name: "消费",
+          address: "[信用卡]",
+          startDate:'2022-05-09',
+          isEditor: false,
+          custom: ""
+        }
+      ]
+    },
+    filterTools(condition,data) {
+      return data.filter( item => {
+        return Object.keys( condition ).every( key => {
+          return String( item[ key ] ).toLowerCase().includes(
+              String( condition[ key ] ).trim().toLowerCase() )
+        } )
+      } )
+    },
     filterSubmit() {
       this.filterVisible = false
     },
     onSubmit() {
-      console.log('submit!');
+      let data = this.formInline.data
+      let filterTable = this.filterTools({startDate:data},this.tableData)
+      this.tableData = filterTable
+
     },
     setFilter() {
       this.filterVisible = true
@@ -337,18 +325,10 @@ export default {
       })
     },
     edit(row, index) {
-      if(this.isUpdate){
         row.isEditor = true;
-        this.addressDrag = {}
-        this.isUpdate = false
-      }
     },
     save(row, index) {
-      if(!this.isUpdate){
-        this.isUpdate = true
         row.isEditor = false;
-        row.address = '[' + this.addressDrag.label + ']'
-      }
     },
     cancel(row, index) {
       if(!this.isUpdate){
@@ -372,7 +352,7 @@ export default {
       let data = event.dataTransfer.getData("item");
       this.rightList.push(JSON.parse(data))
       this.addressDrag =  JSON.parse(data)
-        console.log('this.rightList:', this.rightList)
+      console.log('this.rightList:', this.rightList)
     },
     addColumn() {
       this.$prompt("请输入列名", "提示", {
@@ -446,4 +426,9 @@ export default {
   line-height: 12px;
   display: block;
 }
+
+.el-button--mini{
+  padding:7px 15px!important;
+}
+
 </style>
