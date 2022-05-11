@@ -232,6 +232,7 @@ export default {
         cancelButtonText: "取消"
       }).then(({ value }) => {
         this.isEdit = true
+        this.dynamicColumns = []
         this.dynamicColumns.push({
           prop: value,
           label: value
